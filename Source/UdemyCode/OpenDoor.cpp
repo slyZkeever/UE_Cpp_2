@@ -19,8 +19,7 @@ void UOpenDoor::BeginPlay()
 {
 	Super::BeginPlay();
 
-	
-	
+	ActorThatOpens = GetWorld()->GetFirstPlayerController()->GetPawn();
 }
 
 void UOpenDoor::OpenDoor()
@@ -47,9 +46,6 @@ void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 	{
 		OpenDoor();
 	}
-
 	
-
-
 }
 
