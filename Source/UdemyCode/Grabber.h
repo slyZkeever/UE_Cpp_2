@@ -37,4 +37,15 @@ private:
 	
 	//raycast and grab whats in reach
 	void Grab();
+
+	//release what was grabbed 
+	void Release();
+
+	//look for attached physics handle
+	void FindPhysicsHandleComponent();
+
+	//look for incoming physics component(at runtime)
+	void SetupInputComponent();
+
+	FHitResult GetFirstObjectHit();
 };
