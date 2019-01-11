@@ -34,7 +34,22 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
+	///get player's viewpoint
+	FVector PlayerViewPointLocation;
+	FRotator PlayerViewPointRotation;
+
+	GetWorld()->GetFirstPlayerController()->GetPlayerViewPoint(OUT PlayerViewPointLocation, OUT PlayerViewPointRotation);
+
+	//log
+	//UE_LOG(LogTemp, Warning, TEXT("location: %s, rotation: %s"), *(PlayerViewPointLocation.ToString()), *(PlayerViewPointRotation.ToString()));
+
+	FVector LineTraceEnd = PlayerViewPointLocation + PlayerViewPointRotation.Vector() * Reach;
+
 	//if the physics component is attached move
+	if (PhysicsHandle->GrabbedComponent)
+	{
+		PhysicsHandle->SetTargetLocation(LineTraceEnd);
+	}
 	
 }
 
@@ -70,11 +85,26 @@ void UGrabber::Grab()
 	UE_LOG(LogTemp, Warning, TEXT("Grab Pressed"));
 
 	///Try and reach any physics body collision 
-	GetFirstObjectHit();
+	auto HitResult = GetFirstObjectHit();
 
+	auto ComponentToGrab = HitResult.GetComponent();
+
+	auto ActorHit = HitResult.GetActor();
+	
 	///if hit, attach that object to player
+	if(ActorHit)
+	{
+		// Attach Physics handle
+		PhysicsHandle->GrabComponent
+		(
+			ComponentToGrab,
+			NAME_None, //no bone to grab
+			ComponentToGrab->GetOwner()->GetActorLocation(),
+			true //allow rotation
+		);
+	}
 
-	//TODO Attach Physics handle
+	
 }
 
 
@@ -82,7 +112,8 @@ void UGrabber::Release()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Grab Released"));
 
-	//TODO Release Physics handle
+	//Release Physics handle
+	PhysicsHandle->ReleaseComponent();
 }
 
 
@@ -125,5 +156,5 @@ FHitResult UGrabber::GetFirstObjectHit()
 		UE_LOG(LogTemp, Warning, TEXT("Line Trace Hit: %s"), *(HitActor->GetName()));
 	}
 
-	return FHitResult();
+	return Hit;
 }
