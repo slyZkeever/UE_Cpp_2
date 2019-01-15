@@ -44,7 +44,7 @@ void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 
 	//Poll every frame
 	
-	if (GetTotalMassOfActorsOnPlate() > 50.f)
+	if (GetTotalMassOfActorsOnPlate() > 35.f)
 	{
 		OpenDoor();
 		LastDoorOpenTime = GetWorld()->GetTimeSeconds();
@@ -62,10 +62,20 @@ void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 float UOpenDoor::GetTotalMassOfActorsOnPlate()
 {
 	float TotalMass = 0.f;
+	
+	TArray<AActor*> OverlappingActors;
 
 	//get all overlapping actors
+	PressurePlate->GetOverlappingActors(OverlappingActors);
+	
+	//iterate over actors, summing up their masses
+	for(const auto* Actor : OverlappingActors)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("%s on pressure plate"), *Actor->GetName() );
 
-	//iterate over actors summing up their masses
+		TotalMass += Actor->FindComponentByClass<UPrimitiveComponent>()->GetMass();		
+	}
+
 
 	return TotalMass;
 }

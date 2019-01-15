@@ -10,7 +10,7 @@ UDoorLight::UDoorLight()
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
 
-	// ...
+	
 }
 
 
@@ -19,8 +19,12 @@ void UDoorLight::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// ...
-	
+	LightOwner = GetOwner()->FindComponentByClass<ULightComponent>();
+
+	LightOwner->LightColor = FColor(255, 0, 0); 
+
+	UE_LOG(LogTemp, Warning, TEXT("light found"));
+
 }
 
 
@@ -28,7 +32,17 @@ void UDoorLight::BeginPlay()
 void UDoorLight::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+	//AllowPassing();
 
-	// ...
+	
 }
 
+void UDoorLight::AllowPassing()
+{
+	UOpenDoor open;
+
+	if (open.GetTotalMassOfActorsOnPlate() > 35.f)
+	{
+		LightOwner->LightColor = FColor(255, 0, 0);
+	}
+}

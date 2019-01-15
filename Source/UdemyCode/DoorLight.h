@@ -2,9 +2,13 @@
 
 #pragma once
 
+
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "Components/LightComponent.h"
+#include "OpenDoor.h"
 #include "DoorLight.generated.h"
+
 
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
@@ -24,6 +28,9 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-		
-	
+private:
+	ULightComponentBase* LightOwner;
+	void AllowPassing();
 };
+
+

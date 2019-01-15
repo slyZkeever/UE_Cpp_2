@@ -32,12 +32,16 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
+	//return mass of objects in KG
+	float GetTotalMassOfActorsOnPlate();
+
 private:
 	UPROPERTY(EditAnywhere) //macro; give property to the variable below when used in editor
 	float OpenAngle = -90.f;
 
 	UPROPERTY(EditAnywhere)
 	ATriggerVolume* PressurePlate;
+	
 
 	//UPROPERTY(EditAnywhere)
 	APawn* ActorThatOpens;   //pawn inherits from actor
@@ -49,8 +53,7 @@ private:
 
 	AActor *Owner; //door is owner
 
-	//return mass of objects in KG
-	float GetTotalMassOfActorsOnPlate();	
+		
 };
 
 
