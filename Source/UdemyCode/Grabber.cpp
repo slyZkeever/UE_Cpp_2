@@ -38,7 +38,7 @@ void  UGrabber::FindPhysicsHandleComponent() //component of DefaultPawnBP(Editor
 		/*UE_LOG(LogTemp, Warning, TEXT("Handle Found"));*/
 	}
 	else
-		UE_LOG(LogTemp, Warning, TEXT("Handle Not Found"));
+		UE_LOG(LogTemp, Error, TEXT("Handle Not Found"));
 }
 
 
@@ -46,12 +46,18 @@ void UGrabber::SetupInputComponent()
 {
 	InputComponent = GetOwner()->FindComponentByClass<UInputComponent>();
 
+	if (!InputComponent)
+	{
+		UE_LOG(LogTemp, Error, TEXT("input component not found"));
+	}
+
 	if (InputComponent)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("found input component"));
 		InputComponent->BindAction("grab", IE_Pressed, this, &UGrabber::Grab); //input action from editor, the action, on which obj, function
 		InputComponent->BindAction("grab", IE_Released, this, &UGrabber::Release);
 	}
+	
 }
 
 
@@ -70,6 +76,7 @@ void UGrabber::Grab()
 	if (ActorHit)
 	{
 		// Attach Physics handle
+		if(!PhysicsHandle) { return; }
 		PhysicsHandle->GrabComponentAtLocationWithRotation
 		(
 			ComponentToGrab,
@@ -88,6 +95,7 @@ void UGrabber::Release()
 	UE_LOG(LogTemp, Warning, TEXT("Grab Released"));
 
 	//Release Physics handle
+	if (!PhysicsHandle) return;
 	PhysicsHandle->ReleaseComponent();
 }
 
@@ -161,6 +169,7 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 	//UE_LOG(LogTemp, Warning, TEXT("location: %s, rotation: %s"), *(PlayerViewPointLocation.ToString()), *(PlayerViewPointRotation.ToString()));
 
 	//if the physics component is attached move
+	if (!PhysicsHandle) { return; }
 	if (PhysicsHandle->GrabbedComponent)
 	{
 		PhysicsHandle->SetTargetLocation(GetLineReachEnd()); //attach object at "LineTraceEnd"

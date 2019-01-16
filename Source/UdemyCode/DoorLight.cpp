@@ -20,11 +20,14 @@ void UDoorLight::BeginPlay()
 	Super::BeginPlay();
 
 	LightOwner = GetOwner()->FindComponentByClass<ULightComponent>();
+	if (LightOwner != nullptr)
+	{
+		LightOwner->LightColor = FColor(255, 0, 0);
 
-	LightOwner->LightColor = FColor(255, 0, 0); 
-
-	UE_LOG(LogTemp, Warning, TEXT("light found"));
-
+		UE_LOG(LogTemp, Warning, TEXT("light found"));
+	}
+	else
+		UE_LOG(LogTemp, Warning, TEXT("light owner not found"));
 }
 
 
@@ -32,17 +35,18 @@ void UDoorLight::BeginPlay()
 void UDoorLight::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-	//AllowPassing();
-
-	
+	AllowPassing();
 }
 
 void UDoorLight::AllowPassing()
 {
-	UOpenDoor open;
+	//UOpenDoor open;
 
-	if (open.GetTotalMassOfActorsOnPlate() > 35.f)
+	/*if (open.GetTotalMassOfActorsOnPlate() > 35.f)
 	{
-		LightOwner->LightColor = FColor(255, 0, 0);
-	}
+		if (LightOwner != nullptr)
+		{
+			LightOwner->LightColor = FColor(255, 0, 0);
+		}
+	}*/
 }
