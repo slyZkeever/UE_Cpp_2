@@ -8,7 +8,7 @@
 #include "OpenDoor.generated.h"
 
 
-
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnOpenRequest);
 
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
@@ -35,6 +35,9 @@ public:
 	//return mass of objects in KG
 	float GetTotalMassOfActorsOnPlate();
 
+	UPROPERTY(BlueprintAssignable)
+		FOnOpenRequest OnOpenRequest;
+
 private:
 	UPROPERTY(EditAnywhere) //macro; give property to the variable below when used in editor
 	float OpenAngle = -90.f;
@@ -54,7 +57,7 @@ private:
 
 	AActor *Owner = nullptr; //door is owner
 
-		
+	
 };
 
 
