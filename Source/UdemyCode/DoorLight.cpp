@@ -19,10 +19,9 @@ void UDoorLight::BeginPlay()
 {
 	Super::BeginPlay();
 
-	LightOwner = GetOwner()->FindComponentByClass<ULightComponent>();
-	if (LightOwner != nullptr)
+	if (LightComponent != nullptr)
 	{
-		LightOwner->LightColor = FColor(255, 0, 0, 1);
+		//LightComponent->SetLightColor(FColor(255, 0, 0, 0));
 
 		UE_LOG(LogTemp, Warning, TEXT("light found"));
 	}

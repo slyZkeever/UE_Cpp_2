@@ -6,6 +6,7 @@
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "Components/LightComponent.h"
+#include "Engine/Light.h"
 #include "OpenDoor.h"
 #include "DoorLight.generated.h"
 
@@ -29,7 +30,8 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 private:
-	ULightComponentBase* LightOwner = nullptr;
+	UPROPERTY(EditAnywhere)
+	ALight* LightComponent = nullptr;
 
 	void AllowPassing();
 };

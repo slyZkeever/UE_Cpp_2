@@ -57,7 +57,6 @@ void UGrabber::SetupInputComponent()
 		InputComponent->BindAction("grab", IE_Pressed, this, &UGrabber::Grab); //input action from editor, the action, on which obj, function
 		InputComponent->BindAction("grab", IE_Released, this, &UGrabber::Release);
 	}
-	
 }
 
 
@@ -93,7 +92,7 @@ void UGrabber::Grab()
 void UGrabber::Release()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Grab Released"));
-
+	
 	//Release Physics handle
 	if (!PhysicsHandle) return;
 	PhysicsHandle->ReleaseComponent();
