@@ -37,6 +37,7 @@ public:
 
 	UPROPERTY(BlueprintAssignable)
 		FDoorEvent OnClose;
+	float GetTriggerMass();
 
 private:
 	

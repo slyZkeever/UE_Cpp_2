@@ -33,6 +33,8 @@ private:
 	UPROPERTY(EditAnywhere)
 	ALight* LightComponent = nullptr;
 
+	UOpenDoor* Open = nullptr; //component from OpenDoor class
+
 	void AllowPassing();
 };
 

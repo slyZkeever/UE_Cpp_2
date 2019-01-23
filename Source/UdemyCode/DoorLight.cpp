@@ -9,8 +9,6 @@ UDoorLight::UDoorLight()
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
-
-	
 }
 
 
@@ -27,6 +25,12 @@ void UDoorLight::BeginPlay()
 	}
 	else
 		UE_LOG(LogTemp, Warning, TEXT("light owner not found"));
+
+	
+	/*if (Open->GetTotalMassOfActorsOnPlate() == 0)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("object not found"));
+	}*/
 }
 
 
@@ -34,18 +38,15 @@ void UDoorLight::BeginPlay()
 void UDoorLight::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-	AllowPassing();
+	//AllowPassing();
 }
 
 void UDoorLight::AllowPassing()
-{
-	//UOpenDoor open;
-
-	/*if (open.GetTotalMassOfActorsOnPlate() > 35.f)
+{	
+	
+	if (Open->GetTotalMassOfActorsOnPlate() > Open->GetTriggerMass())
 	{
-		if (LightOwner != nullptr)
-		{
-			LightOwner->LightColor = FColor(255, 0, 0);
-		}
-	}*/
+		UE_LOG(LogTemp, Warning, TEXT("changing color to green"));
+		LightComponent->SetLightColor(FColor(0, 255, 0, 0));
+	}
 }

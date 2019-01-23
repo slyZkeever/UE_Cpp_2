@@ -67,3 +67,8 @@ float UOpenDoor::GetTotalMassOfActorsOnPlate()
 
 	return TotalMass;
 }
+
+float UOpenDoor::GetTriggerMass()
+{
+	return TriggerMass;
+}
