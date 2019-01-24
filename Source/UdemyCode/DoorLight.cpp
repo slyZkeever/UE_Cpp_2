@@ -27,10 +27,10 @@ void UDoorLight::BeginPlay()
 		UE_LOG(LogTemp, Warning, TEXT("light owner not found"));
 
 	
-	/*if (Open->GetTotalMassOfActorsOnPlate() == 0)
+	if(!Open)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("object not found"));
-	}*/
+	}
 }
 
 
@@ -41,6 +41,7 @@ void UDoorLight::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompo
 	//AllowPassing();
 }
 
+/*
 void UDoorLight::AllowPassing()
 {	
 	
@@ -49,4 +50,4 @@ void UDoorLight::AllowPassing()
 		UE_LOG(LogTemp, Warning, TEXT("changing color to green"));
 		LightComponent->SetLightColor(FColor(0, 255, 0, 0));
 	}
-}
+}*/
