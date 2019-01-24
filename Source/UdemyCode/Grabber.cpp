@@ -25,6 +25,8 @@ void UGrabber::BeginPlay()
 	FindPhysicsHandleComponent();
 
 	SetupInputComponent();
+
+	ToggleGrab = 0;
 	
 }
 
@@ -55,15 +57,13 @@ void UGrabber::SetupInputComponent()
 	{
 		UE_LOG(LogTemp, Warning, TEXT("found input component"));
 		InputComponent->BindAction("grab", IE_Pressed, this, &UGrabber::Grab); //input action from editor, the action, on which obj, function
-		InputComponent->BindAction("grab", IE_Released, this, &UGrabber::Release);
+		//InputComponent->BindAction("grab", IE_Released, this, &UGrabber::Grab);
 	}
 }
 
 
 void UGrabber::Grab()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Grab Pressed"));
-
 	///Try and reach any physics body collision 
 	auto HitResult = GetFirstObjectHit();
 
@@ -76,19 +76,38 @@ void UGrabber::Grab()
 	{
 		// Attach Physics handle
 		if(!PhysicsHandle) { return; }
-		PhysicsHandle->GrabComponentAtLocationWithRotation
-		(
-			ComponentToGrab,
-			NAME_None, //no bone to grab
-			ComponentToGrab->GetOwner()->GetActorLocation(), //grab at object's origin
-			ComponentToGrab->GetOwner()->GetActorRotation()  //apply constraints to rotation of objects
-		);
+		else
+		{
+			if (ToggleGrab == 0)
+			{
+				UE_LOG(LogTemp, Warning, TEXT("Grabbed"));
+				PhysicsHandle->GrabComponentAtLocationWithRotation
+				(
+					ComponentToGrab,
+					NAME_None, //no bone to grab
+					ComponentToGrab->GetOwner()->GetActorLocation(), //grab at object's origin
+					ComponentToGrab->GetOwner()->GetActorRotation()  //apply constraints to rotation of objects
+				);
+
+				ToggleGrab = 1;
+			}
+			else
+			{
+				if (ToggleGrab == 1)
+				{
+					UE_LOG(LogTemp, Warning, TEXT("Released"));
+					PhysicsHandle->ReleaseComponent();
+					ToggleGrab = 0;
+				}
+			}
+		}
 	}
 
 
 }
 
 
+/*
 void UGrabber::Release()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Grab Released"));
@@ -96,7 +115,7 @@ void UGrabber::Release()
 	//Release Physics handle
 	if (!PhysicsHandle) return;
 	PhysicsHandle->ReleaseComponent();
-}
+}*/
 
 
 FHitResult UGrabber::GetFirstObjectHit()

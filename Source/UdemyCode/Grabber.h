@@ -50,5 +50,7 @@ private:
 	FVector GetLineReachStart();
 
 	FVector GetLineReachEnd();
+
+	bool ToggleGrab = 0;
 	
 };
